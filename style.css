@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
     border: 0;
-    font-family: 'Brush Script MT', cursive;
+    font-family: "Brush Script MT", cursive;
     /* outline: 1px solid lime; */
 }
 
@@ -11,28 +11,34 @@ body {
 }
 
 .bg-world1 {
-    background-image: url('cat.jpeg');
+    background-image: url("https://images.pexels.com/photos/1612351/pexels-photo-1612351.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-size: cover;
 }
 
 .bg-world2 {
-    background-image: url('');
+    background-image: url("");
+    background-size: cover;
 }
 
 .bg-world3 {
-    background-image: url('cat.jpeg');
+    background-image: url("");
+    background-size: cover;
 }
 
 .bg-world4{
-    background-image: url('');
+    background-image: url("");
+    background-size: cover;
 }
 
 h1.title {
     text-align: center;
     font-size: 4rem;
+    -webkit-text-stroke: .1rem white;
 }
 
 h2 {
     font-size: 2.5rem;
+    -webkit-text-stroke: .1rem white;
 }
 
 .wrapper {
