@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
     border: 0;
-    font-family: 'Brush Script MT', cursive;
+    /* font-family: 'Brush Script MT', cursive; */
     /* outline: 1px solid lime; */
 }
 
@@ -89,7 +89,7 @@ input.off {
 .line {
     position: absolute;
     border: .4rem solid black;
-    background-color: blue;
+    background-color: black;
     transform-origin: left top;
 }
 
@@ -109,7 +109,7 @@ button.node {
 }
 
 button.node:hover {
-    background-color: #ffd7de;
+    filter: brightness(110%);
 }
 
 button.node.used {
@@ -124,10 +124,10 @@ button#back {
     position: absolute;
     left: 1rem;
     top: 1rem;
-    background-color: aquamarine;
+    background-color: lightgreen;
     font-size: 2rem;
     font-weight: bold;
-    padding: .6rem .8rem 0 .8rem;
+    padding: .8rem;
     border-radius: 1rem;
     border: .2rem solid black;
 }

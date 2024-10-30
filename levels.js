@@ -117,7 +117,7 @@ function drawLine(startNode, endNode) {
 
 function isLegalWord() {
     const currentWord = document.getElementById(`word${currentWordNum}`).value;
-    const dictionary = " adhebfgc "; // temporary value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const dictionary = " adhe ebfgc bfgbcd "; // temporary value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return currentWord.length > 1 && dictionary.includes(" " + currentWord + " ");
 }
 
@@ -134,4 +134,19 @@ function checkWin() {
     localStorage.setItem("current_level", nextLevel);
     localStorage.setItem("level_1_score", score);
     window.location.href = "index.html";
+}
+
+const fs = require("fs");
+
+function checkWordInDictionary(word) {
+    return new Promise((resolve, reject) => {
+        fs.readFile("dictionary.txt", "utf8", (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                const dictionary = data.split("\n");
+                return dictionary.includes(word);
+            }
+        })
+    })
 }

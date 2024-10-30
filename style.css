@@ -79,7 +79,7 @@ button.slide:hover {
 
 button.slide:active {
     background-color: lightgray;
-    transform: scale(90%);
+    transform: scale(85%);
 }
 
 .slider section:not(section:first-child) {
