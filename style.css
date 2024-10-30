@@ -33,12 +33,18 @@ body {
 h1.title {
     text-align: center;
     font-size: 4rem;
-    -webkit-text-stroke: .1rem white;
+    color: white;
+    font-weight: 1000;
+    text-shadow: #FC0 1px 0 10px;
+    /* -webkit-text-stroke: .1rem white; */
 }
 
 h2 {
     font-size: 2.5rem;
-    -webkit-text-stroke: .1rem white;
+    color: white;
+    font-weight: bold;
+    text-shadow: #FC0 1px 0 10px;
+    /* -webkit-text-stroke: .1rem white; */
 }
 
 .wrapper {
@@ -91,6 +97,7 @@ button.slide:active {
     width: 8rem;
     height: 8rem;
     font-size: 2rem;
+    border-radius: .4rem;
     background-color: white;
     display: flex;
     justify-content: center;
@@ -104,7 +111,21 @@ button.slide:active {
     transform: scale(110%);
 }
 
+.level.off {
+    background-color: #bebebe;
+    pointer-events: none;
+}
+
 a {
     text-decoration: none;
     color: inherit;
 }
+
+/* .star {
+    position: absolute;
+    bottom: 1rem;
+    width: 2rem;
+    aspect-ratio: 1;
+    background: #F8CA00;
+    clip-path: polygon(50% 0,79% 90%,2% 35%,98% 35%,21% 90%); 
+} */

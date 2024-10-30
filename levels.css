@@ -32,18 +32,65 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    gap: 2rem;
 }
 
-.box {
+.card {
     background-color: white;
     border-radius: 1.5rem;
-    width: 48rem;
+    width: 40rem;
     height: 40rem;
+    padding: 2rem;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.history {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 15rem;
+}
+
+.history input {
+    background-color: pink;
+    font-size: 3rem;
+    width: 100%;
+}
+
+input.off {
+    background-color: #bebebe;
+    pointer-events: none;
+}
+
+.board {
     display: grid;
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(5, 1fr);
-    padding: 2rem;
+    grid-template-areas:
+    ". a . b ."
+    "c . . . d"
+    ". . . . ."
+    "e . . . f"
+    ". g . h .";
+}
+
+.board .box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-90.5%, -50%);
+    width: 25rem;
+    height: 25rem;
+    border: .4rem solid black;
+    grid-area: M;
+}
+
+.line {
+    position: absolute;
+    border: .4rem solid black;
+    background-color: blue;
+    transform-origin: left top;
 }
 
 button.node {
@@ -57,50 +104,20 @@ button.node {
     align-items: center;
     justify-self: center;
     align-self: center;
+    grid-area: var(--grid-area);
+    z-index: 1;
 }
 
 button.node:hover {
     background-color: #ffd7de;
 }
 
-button.node#a {
-    grid-column: 2;
-    grid-row: 1;
+button.node.used {
+    background-color: lightgreen;
 }
 
-button.node#b {
-    grid-column: 4;
-    grid-row: 1;
-}
-
-button.node#c {
-    grid-column: 1;
-    grid-row: 2;
-}
-
-button.node#d {
-    grid-column: 5;
-    grid-row: 2;
-}
-
-button.node#e {
-    grid-column: 1;
-    grid-row: 4;
-}
-
-button.node#f {
-    grid-column: 5;
-    grid-row: 4;
-}
-
-button.node#g {
-    grid-column: 2;
-    grid-row: 5;
-}
-
-button.node#h {
-    grid-column: 4;
-    grid-row: 5;
+button.node.last-item {
+    background-color: orange; !important
 }
 
 button#back {

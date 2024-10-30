@@ -13,3 +13,11 @@ prevBtn.addEventListener('click', () => {
     document.body.classList.remove(...document.body.classList);
     document.body.classList.add(`bg-${slider.firstChild.id}`);
 });
+
+// localStorage.setItem("current_level", 1);
+const currentLevel = localStorage.getItem("current_level");
+if (!currentLevel) localStorage.setItem("current_level", 1);
+for (let i = 0; i < currentLevel; i++) {
+    const worldButton = document.getElementById(`${i+1}`);
+    worldButton.classList.remove("off");
+}
