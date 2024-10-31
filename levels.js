@@ -1,3 +1,7 @@
+jQuery.get("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt", function(data) {
+    var dictionary = data;
+});
+
 let currentWordNum = 1, currentLineNum = 1;
 const currentWord = document.getElementById(`word${currentWordNum}`);
 currentWord.classList.remove("off");
@@ -27,15 +31,14 @@ board.addEventListener('click', (event) => {
     const currentWord = document.getElementById(`word${currentWordNum}`);
     currentWord.value += endNode.id;
     startNode = endNode;
-
-    checkWin();
 });
 
 document.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
-        if (!isLegalWord()) return;
-        
         const currentWord = document.getElementById(`word${currentWordNum}`);
+        if(currentWord.value.length < 2 || !isWordInDictionary(currentWord.value)) return;
+        checkWin();
+        
         currentWord.classList.add("off");
         currentWord.disabled = true;
         const oldLastValue = currentWord.value[currentWord.value.length - 1];
@@ -82,8 +85,6 @@ historyContainer.addEventListener("input", () => {
     node2.classList.add("last-item");
     node2.classList.add("used");
     drawLine(node1, node2);
-
-    checkWin();
 });
 
 function isLegalChar(startNode, endNode) {
@@ -115,15 +116,7 @@ function drawLine(startNode, endNode) {
     document.body.appendChild(newLine);
 }
 
-function isLegalWord() {
-    const currentWord = document.getElementById(`word${currentWordNum}`).value;
-    const dictionary = " adhe ebfgc bfgbcd "; // temporary value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    return currentWord.length > 1 && dictionary.includes(" " + currentWord + " ");
-}
-
 function checkWin() {
-    if (!isLegalWord()) return;
-    
     const allUsedNodes = document.querySelectorAll(".used");
     const allNodes = document.querySelectorAll(".node");
     if (allUsedNodes.length !== allNodes.length) return;
@@ -136,17 +129,22 @@ function checkWin() {
     window.location.href = "index.html";
 }
 
-const fs = require("fs");
+function isWordInDictionary(wordToCheck) {
+    const target = wordToCheck.toUpperCase();
+    
+    let left = 0;
+    let right = dictionary.length - 1;
 
-function checkWordInDictionary(word) {
-    return new Promise((resolve, reject) => {
-        fs.readFile("dictionary.txt", "utf8", (err, data) => {
-            if (err) {
-                reject(err);
-            } else {
-                const dictionary = data.split("\n");
-                return dictionary.includes(word);
-            }
-        })
-    })
+    while (left <= right) {
+        const mid = Math.floor((left + right) / 2);
+
+        if (dictionary[mid] === target) {
+            return true;
+        } else if (dictionary[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return false;
 }
