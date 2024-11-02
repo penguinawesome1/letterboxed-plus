@@ -12,19 +12,19 @@ body {
 }
 
 .bg-world1 {
-    background-image: url("images/background1");
+    background-image: url("images/background1.png");
 }
 
 .bg-world2 {
-    background-image: url("images/background2");
+    background-image: url("images/background2.png");
 }
 
 .bg-world3 {
-    background-image: url("images/background3");
+    background-image: url("images/background3.png");
 }
 
 .bg-world4{
-    background-image: url("images/background4");
+    background-image: url("images/background4.png");
 }
 
 h1.title {
