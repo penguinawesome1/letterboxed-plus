@@ -12,19 +12,19 @@ body {
 }
 
 .bg-world1 {
-    background-image: url("https://images8.alphacoders.com/133/thumb-1920-1330260.png");
+    background-image: url("images/background1");
 }
 
 .bg-world2 {
-    background-image: url("https://images.alphacoders.com/135/thumb-1920-1350453.png");
+    background-image: url("images/background2");
 }
 
 .bg-world3 {
-    background-image: url("https://images8.alphacoders.com/135/thumb-1920-1351251.png");
+    background-image: url("images/background3");
 }
 
 .bg-world4{
-    background-image: url("https://images5.alphacoders.com/132/thumb-1920-1327980.png");
+    background-image: url("images/background4");
 }
 
 h1.title {
@@ -33,7 +33,6 @@ h1.title {
     color: white;
     font-weight: 1000;
     text-shadow: #FC0 1px 0 10px;
-    /* -webkit-text-stroke: .1rem white; */
 }
 
 h2 {
@@ -41,7 +40,6 @@ h2 {
     color: white;
     font-weight: bold;
     text-shadow: #FC0 1px 0 10px;
-    /* -webkit-text-stroke: .1rem white; */
 }
 
 .wrapper {
