@@ -6,7 +6,7 @@ currentWord.focus();
 
 async function setUpDictionary() {
     try {
-        const response = await fetch("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt");
+        const response = await fetch("dictionary.txt");
         const data = await response.text();
         dictionary = data.split('\n');
         return dictionary;
@@ -152,5 +152,5 @@ function checkWin() {
     const score = currentWordNum / 2;
     localStorage.setItem("current_level", nextLevel);
     localStorage.setItem("level_1_score", score);
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 }
