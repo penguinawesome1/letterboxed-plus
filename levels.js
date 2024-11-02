@@ -1,94 +1,120 @@
-jQuery.get("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt", function(data) {
-    var dictionary = data;
-});
+// const elements = document.querySelectorAll("*:contains('" + targetText + "')");
 
-let currentWordNum = 1, currentLineNum = 1;
-const currentWord = document.getElementById(`word${currentWordNum}`);
-currentWord.classList.remove("off");
+let startLetter = "", currentLineNum = 0, currentWordNum = 1, currentWord = document.getElementById("word1");
 currentWord.disabled = false;
 currentWord.focus();
 
-const board = document.querySelector(".board");
+async function setUpDictionary() {
+    try {
+        const response = await fetch("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt");
+        const data = await response.text();
+        dictionary = data.split('\n');
+        return dictionary;
+    } catch (error) {
+        console.error("Error fetching dictionary:", error);
+    }
+}
+(async () => {
+    const dictionary = await setUpDictionary();
+})();
 
-let startNode = null;
-board.addEventListener('click', (event) => {
-    const endNode = event.target.closest(".node");
-    if (!startNode) {
-        const firstWord = document.getElementById("word1");
-        firstWord.value = endNode.id;
-        endNode.classList.add("used");
-        endNode.classList.add("last-item");
-        startNode = endNode;
-        return;
+// for typed letters in input
+const inputFields = document.querySelectorAll("input");
+inputFields.forEach(inputField => {
+    inputField.addEventListener('keydown', (event) => {
+        const typedLetter = event.key;
+        if (typedLetter === "Enter" || typedLetter === "Tab") { // forward a letter
+            if (!dictionary.includes(currentWord.value.toUpperCase())) return;
+            const oldLastLetter = currentWord.value[currentWord.value.length - 1];
+            updateCurrentWord(true, oldLastLetter);
+            checkWin();
+        } else if (typedLetter === "Backspace") { // back a letter
+            const currentWordLength = currentWord.value.length;
+            if (currentWordNum === 1 && currentWord.value.length === 0) return;
+            if (currentWordNum !== 1 && currentWord.value.length === 1) { // must always have 1 letter if not on first word
+                updateCurrentWord(false, "");
+                return;
+            }
+            
+            const currentLine = document.getElementById(`line${currentLineNum}`);
+            if (currentLine) currentLine.parentNode.removeChild(currentLine);
+            currentLineNum--;
+            
+            const currentNode = document.getElementById(startLetter);
+            if (!charExistsInPrevHistory(startLetter)) {
+                currentNode.classList.remove("used");
+            }
+            currentNode.classList.remove("last-item");
+
+            const newLetter = currentWord.value[currentWord.value.length - 2];
+            const newNode = document.getElementById(newLetter);
+            if (newNode) newNode.classList.add("last-item");
+            startLetter = newLetter;
+        } else if (isLegalChar(typedLetter)) { // legal letter
+            addLetter(typedLetter, true);
+        } else { // illegal letter
+            event.preventDefault(); // prevent typed letter
+        }
+    });
+});
+
+// for clicks on nodes
+const board = document.querySelector(".board");
+board.addEventListener("click", (event) => {
+    const clickedLetter = event.target.closest(".node").id;
+    if (isLegalChar(clickedLetter)) {
+        addLetter(clickedLetter, false);
     }
-    if (!isLegalChar(startNode, endNode)) {
-        return;
+});
+
+function charExistsInPrevHistory(char) {
+    let allLetters = "";
+    for (let i = 0; i < currentWordNum; i++) {
+        allLetters += document.getElementById(`word${i + 1}`).value;
     }
-    drawLine(startNode, endNode);
-    startNode.classList.remove("last-item");
+    const allLettersButLast = allLetters.slice(0, -1);
+    return allLettersButLast.includes(char);
+}
+
+function isLegalChar(endLetter) {
+    const startNode = document.getElementById(startLetter);
+    const endNode = document.getElementById(endLetter);
+    if (!endNode) return false;
+    return (currentWordNum === 1 && currentWord.value.length === 0)
+        || (currentWordNum !== 1 && currentWord.value.length === 1)
+        || startNode && startNode.dataset.links.includes(endNode.id);
+}
+
+function updateCurrentWord(forward, letter) {
+    if (forward) currentWordNum++;
+    else currentWordNum--;
+    if (currentWordNum < 1 || currentWordNum > 6) return;
+    currentWord.classList.add("off");
+    currentWord.disabled = true;
+    currentWord = document.getElementById(`word${currentWordNum}`);
+    currentWord.classList.remove("off");
+    currentWord.disabled = false;
+    currentWord.focus();
+    if (forward) currentWord.value = letter;
+}
+
+function addLetter(endLetter, wasTyped) {
+    // add word to input boxes if not already
+    if (!wasTyped) {
+        currentWord.value += endLetter;
+    }
+    
+    const startNode = document.getElementById(startLetter);
+    const endNode = document.getElementById(endLetter);
+    
+    if (startNode) {
+        drawLine(startNode, endNode);
+        startNode.classList.remove("last-item");
+    }
     endNode.classList.add("last-item");
     endNode.classList.add("used");
-    const currentWord = document.getElementById(`word${currentWordNum}`);
-    currentWord.value += endNode.id;
-    startNode = endNode;
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        const currentWord = document.getElementById(`word${currentWordNum}`);
-        if(currentWord.value.length < 2 || !isWordInDictionary(currentWord.value)) return;
-        checkWin();
-        
-        currentWord.classList.add("off");
-        currentWord.disabled = true;
-        const oldLastValue = currentWord.value[currentWord.value.length - 1];
-        currentWordNum++;
-        const newCurrentWord = document.getElementById(`word${currentWordNum}`);
-        newCurrentWord.classList.remove("off");
-        newCurrentWord.disabled = false;
-        newCurrentWord.focus();
-        newCurrentWord.value = oldLastValue;
-    }
-    if (event.key === "Backspace") {
-        let currentLineNumCopy = currentLineNum;
-        let lastLine = document.getElementById(`line${currentLineNumCopy--}`);
-        while (!lastLine && currentLineNumCopy > 0) {
-            lastLine = document.getElementById(`line${currentLineNumCopy--}`);
-        }
-        lastLine.parentNode.removeChild(lastLine);
-    }
-});
-
-const historyContainer = document.querySelector(".history");
-historyContainer.addEventListener("input", () => {
-    let currentWord = document.getElementById(`word${currentWordNum}`).value;
-    const wordLength = currentWord.length;
-    if (wordLength < 2) {
-        const node2 = document.getElementById(`${currentWord[wordLength - 1]}`);
-        if (!node2) {
-            const wordToAdjust = document.getElementById(`word${currentWordNum}`);
-            wordToAdjust.value = currentWord.substring(0, wordLength - 1);
-            return;
-        }
-        node2.classList.add("last-item");
-        node2.classList.add("used");
-        return;
-    }
-    const node1 = document.getElementById(`${currentWord[wordLength - 2]}`);
-    const node2 = document.getElementById(`${currentWord[wordLength - 1]}`);
-    if (!isLegalChar(node1, node2)) {
-        const wordToAdjust = document.getElementById(`word${currentWordNum}`);
-        wordToAdjust.value = currentWord.substring(0, wordLength - 1);
-        return;
-    }
-    node1.classList.remove("last-item");
-    node2.classList.add("last-item");
-    node2.classList.add("used");
-    drawLine(node1, node2);
-});
-
-function isLegalChar(startNode, endNode) {
-    return startNode && endNode && startNode.dataset.links.includes(endNode.id);
+    
+    startLetter = endLetter;
 }
 
 function drawLine(startNode, endNode) {
@@ -104,6 +130,7 @@ function drawLine(startNode, endNode) {
     const angle = Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI);
 
     const newLine = document.createElement("div");
+    currentLineNum++;
     newLine.id = `line${currentLineNum}`;
     newLine.classList.add("line");
     
@@ -111,7 +138,6 @@ function drawLine(startNode, endNode) {
     newLine.style.transform = `rotate(${angle}deg)`;
     newLine.style.left = `${x1}px`;
     newLine.style.top = `${y1}px`;
-    currentLineNum++;
     
     document.body.appendChild(newLine);
 }
@@ -127,24 +153,4 @@ function checkWin() {
     localStorage.setItem("current_level", nextLevel);
     localStorage.setItem("level_1_score", score);
     window.location.href = "index.html";
-}
-
-function isWordInDictionary(wordToCheck) {
-    const target = wordToCheck.toUpperCase();
-    
-    let left = 0;
-    let right = dictionary.length - 1;
-
-    while (left <= right) {
-        const mid = Math.floor((left + right) / 2);
-
-        if (dictionary[mid] === target) {
-            return true;
-        } else if (dictionary[mid] < target) {
-            left = mid + 1;
-        } else {
-            right = mid - 1;
-        }
-    }
-    return false;
 }

@@ -7,24 +7,24 @@
 }
 
 body {
-    background-color: blanchedalmond;
+    background-color: black;
     z-index: -1;
 }
 
 .bg-world1 {
-    background-image: url("https://images.pexels.com/photos/1612351/pexels-photo-1612351.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+    background-image: url("https://images8.alphacoders.com/133/thumb-1920-1330260.png");
 }
 
 .bg-world2 {
-    background-image: url("");
+    background-image: url("https://images.alphacoders.com/135/thumb-1920-1350453.png");
 }
 
 .bg-world3 {
-    background-image: url("");
+    background-image: url("https://images8.alphacoders.com/135/thumb-1920-1351251.png");
 }
 
 .bg-world4{
-    background-image: url("");
+    background-image: url("https://images5.alphacoders.com/132/thumb-1920-1327980.png");
 }
 
 .wrapper {
@@ -56,34 +56,43 @@ body {
     background-color: pink;
     font-size: 3rem;
     width: 100%;
+    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
+    border-radius: .5rem;
 }
 
 input.off {
-    background-color: #bebebe;
+    background-color: black;
+    height: 1rem;
     pointer-events: none;
+    color: transparent;
 }
 
 .board {
     display: grid;
+    aspect-ratio: 1 / 1;
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas:
     ". a . b ."
     "c . . . d"
-    ". . . . ."
+    ". . M . ."
     "e . . . f"
     ". g . h .";
 }
 
 .board .box {
+    position: relative;
+    grid-area: M;
+}
+
+.board .box::after {
+    content: "";
     position: absolute;
+    padding: 16rem;
     top: 50%;
     left: 50%;
-    transform: translate(-90.5%, -50%);
-    width: 25rem;
-    height: 25rem;
-    border: .4rem solid black;
-    grid-area: M;
+    transform: translate(-50%, -50%);
+    border: .2rem solid black;
 }
 
 .line {
@@ -97,7 +106,7 @@ button.node {
     width: 5rem;
     height: 5rem;
     border-radius: 50%;
-    background-color: pink;
+    background-color: white;
     font-size: 2rem;
     display: flex;
     justify-content: center;
@@ -106,28 +115,44 @@ button.node {
     align-self: center;
     grid-area: var(--grid-area);
     z-index: 1;
+    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
+    transition: .4s ease-in-out;
 }
 
 button.node:hover {
     filter: brightness(110%);
+    transform: translateY(-0.4rem);
+    background: #171717;
+    color: white;
+}
+
+button.node:active {
+    transform: translateY(-0.2rem) scaleY(95%) scaleX(105%);
+    transition: .2s ease-in-out;
 }
 
 button.node.used {
     background-color: lightgreen;
+    color: black;
 }
 
 button.node.last-item {
-    background-color: orange; !important
+    background-color: orange !important;
+    color: black;
 }
 
 button#back {
+    z-index: 2;
     position: absolute;
     left: 1rem;
     top: 1rem;
-    background-color: lightgreen;
+    width: 5rem;
+    height: 5rem;
+    background-color: pink;
     font-size: 2rem;
     font-weight: bold;
     padding: .8rem;
     border-radius: 1rem;
     border: .2rem solid black;
+    box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
 }

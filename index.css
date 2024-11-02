@@ -7,27 +7,24 @@
 }
 
 body {
-    background-color: blanchedalmond;
+    background-color: black;
+    background-size: cover;
 }
 
 .bg-world1 {
-    background-image: url("https://images.pexels.com/photos/1612351/pexels-photo-1612351.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-    background-size: cover;
+    background-image: url("https://images8.alphacoders.com/133/thumb-1920-1330260.png");
 }
 
 .bg-world2 {
-    background-image: url("");
-    background-size: cover;
+    background-image: url("https://images.alphacoders.com/135/thumb-1920-1350453.png");
 }
 
 .bg-world3 {
-    background-image: url("");
-    background-size: cover;
+    background-image: url("https://images8.alphacoders.com/135/thumb-1920-1351251.png");
 }
 
 .bg-world4{
-    background-image: url("");
-    background-size: cover;
+    background-image: url("https://images5.alphacoders.com/132/thumb-1920-1327980.png");
 }
 
 h1.title {
