@@ -40,18 +40,18 @@ inputFields.forEach(inputField => {
             if (currentLine) currentLine.parentNode.removeChild(currentLine);
             currentLineNum--;
             
-            const currentNode = document.getElementById(startLetter);
+            const currentNode = document.evaluate("//button[text() = '" + startLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+            currentNode.classList.remove("last-item");
             if (!charExistsInPrevHistory(startLetter)) {
                 currentNode.classList.remove("used");
             }
-            currentNode.classList.remove("last-item");
 
-            const newLetter = currentWord.value[currentWord.value.length - 2];
-            const newNode = document.getElementById(newLetter);
+            const newLetter = currentWord.value[currentWord.value.length - 2].toUpperCase();
+            const newNode = document.evaluate("//button[text() = '" + newLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
             if (newNode) newNode.classList.add("last-item");
             startLetter = newLetter;
-        } else if (isLegalChar(typedLetter)) { // legal letter
-            addLetter(typedLetter, true);
+        } else if (isLegalChar(typedLetter.toUpperCase())) { // legal letter
+            addLetter(typedLetter.toUpperCase(), true);
         } else { // illegal letter
             event.preventDefault(); // prevent typed letter
         }
@@ -61,7 +61,7 @@ inputFields.forEach(inputField => {
 // for clicks on nodes
 const board = document.querySelector(".board");
 board.addEventListener("click", (event) => {
-    const clickedLetter = event.target.closest(".node").id;
+    const clickedLetter = event.target.closest(".node").innerText;
     if (isLegalChar(clickedLetter)) {
         addLetter(clickedLetter, false);
     }
@@ -72,17 +72,17 @@ function charExistsInPrevHistory(char) {
     for (let i = 0; i < currentWordNum; i++) {
         allLetters += document.getElementById(`word${i + 1}`).value;
     }
-    const allLettersButLast = allLetters.slice(0, -1);
+    const allLettersButLast = allLetters.slice(0, -1).toUpperCase();
     return allLettersButLast.includes(char);
 }
 
 function isLegalChar(endLetter) {
-    const startNode = document.getElementById(startLetter);
-    const endNode = document.getElementById(endLetter);
+    const startNode = document.evaluate("//button[text() = '" + startLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    const endNode = document.evaluate("//button[text() = '" + endLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     if (!endNode) return false;
     return (currentWordNum === 1 && currentWord.value.length === 0)
         || (currentWordNum !== 1 && currentWord.value.length === 1)
-        || startNode && startNode.dataset.links.includes(endNode.id);
+        || (startNode && startNode.dataset.links.includes(endNode.id));
 }
 
 function updateCurrentWord(forward, letter) {
@@ -101,11 +101,11 @@ function updateCurrentWord(forward, letter) {
 function addLetter(endLetter, wasTyped) {
     // add word to input boxes if not already
     if (!wasTyped) {
-        currentWord.value += endLetter;
+        currentWord.value += endLetter.toLowerCase();
     }
     
-    const startNode = document.getElementById(startLetter);
-    const endNode = document.getElementById(endLetter);
+    const startNode = document.evaluate("//button[text() = '" + startLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    const endNode = document.evaluate("//button[text() = '" + endLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     
     if (startNode) {
         drawLine(startNode, endNode);
@@ -142,7 +142,7 @@ function drawLine(startNode, endNode) {
     document.body.appendChild(newLine);
 }
 
-function checkWin() {
+function checkWin() {    
     const allUsedNodes = document.querySelectorAll(".used");
     const allNodes = document.querySelectorAll(".node");
     if (allUsedNodes.length !== allNodes.length) return;
