@@ -6,7 +6,7 @@ currentWord.focus();
 
 async function setUpDictionary() {
     try {
-        const response = await fetch("dictionary.txt");
+        const response = await fetch("../dictionary.txt");
         const data = await response.text();
         dictionary = data.split('\n');
         return dictionary;
