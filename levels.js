@@ -147,9 +147,8 @@ function checkWin() {
     const allNodes = document.querySelectorAll(".node");
     if (allUsedNodes.length !== allNodes.length) return;
     
-    const currentLevel = parseInt(localStorage.getItem("current_level"));
-    const nextLevel = parseInt(Math.max(currentLevel, document.body.dataset.level) + 1);
-    const score = currentWordNum / 2;
-    localStorage.setItem("current_level", nextLevel);
+    const currentMaxLevel = parseInt(localStorage.getItem("current_level"));
+    const nextLevel = document.body.dataset.level + 1;
+    if (nextLevel > currentMaxLevel) localStorage.setItem("current_level", nextLevel);
     window.location.href = "../index.html";
 }
