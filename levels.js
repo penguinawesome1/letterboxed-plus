@@ -148,9 +148,8 @@ function checkWin() {
     if (allUsedNodes.length !== allNodes.length) return;
     
     const currentLevel = parseInt(localStorage.getItem("current_level"));
-    const nextLevel = parseInt(Math.min(currentLevel, document.body.dataset.level) + 1);
+    const nextLevel = parseInt(Math.max(currentLevel, document.body.dataset.level) + 1);
     const score = currentWordNum / 2;
     localStorage.setItem("current_level", nextLevel);
-    localStorage.setItem("level_1_score", score);
     window.location.href = "../index.html";
 }
