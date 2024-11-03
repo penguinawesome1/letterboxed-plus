@@ -148,7 +148,7 @@ function checkWin() {
     if (allUsedNodes.length !== allNodes.length) return;
     
     const currentMaxLevel = parseInt(localStorage.getItem("current_level"));
-    const nextLevel = document.body.dataset.level + 1;
+    const nextLevel = +document.body.dataset.level + 1;
     if (nextLevel > currentMaxLevel) localStorage.setItem("current_level", nextLevel);
     window.location.href = "../index.html";
 }
