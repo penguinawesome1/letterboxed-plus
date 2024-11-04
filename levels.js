@@ -151,7 +151,7 @@ function checkWin() {
 
     const score_location = "score_level_" + document.body.dataset.level;
     const currentMaxScore = parseInt(localStorage.getItem(score_location));
-    const thisScore = (currentWordNum - 1) / 2;
+    const thisScore = parseInt(currentWordNum / 2);
     if (thisScore > currentMaxScore) localStorage.setItem(score_location, thisScore);
     
     window.location.href = "../index.html";
