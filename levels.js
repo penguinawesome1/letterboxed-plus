@@ -27,14 +27,10 @@ inputFields.forEach(inputField => {
             const oldLastLetter = currentWord.value[currentWord.value.length - 1];
             updateCurrentWord(true, oldLastLetter);
         } else if (typedLetter === "Backspace") { // back a letter
-            const canUndoLetter = (currentWordNum === 1 && currentWordLength > 1)
-                || (currentWordNum > 1 && currentWordLength > 2);
-            if (canUndoLetter) {
-                undoLetter();
-            }
-            if (currentWordLength === 0) {
-                startLetter = "";
-            }
+            let currentWordLength = currentWord.value.length;
+            const canUndoLetter = (currentWordNum === 1 && currentWordLength > 0)
+                || (currentWordNum > 1 && currentWordLength > 1);
+            if (canUndoLetter) undoLetter();
         } else if (isLegalChar(typedLetter.toUpperCase())) { // legal letter
             addLetter(typedLetter.toUpperCase(), true);
         } else { // illegal letter
@@ -54,14 +50,16 @@ function undoLetter() {
         currentNode.classList.remove("used");
     }
     
-    const newLetter = currentWord.value[currentWord.value.length - 2].toUpperCase();
+    const newLetter = currentWord.value[currentWord.value.length - 2];
     if (!newLetter) {
-        startLetter = null;
+        startLetter = "";
+        return;
     }
     
-    const newNode = document.evaluate("//button[text() = '" + newLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    const newLetterUpper = newLetter.toUpperCase();
+    const newNode = document.evaluate("//button[text() = '" + newLetterUpper + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     if (newNode) newNode.classList.add("last-item");
-    startLetter = newLetter;
+    startLetter = newLetterUpper;
 }
 
 // for clicks on nodes
