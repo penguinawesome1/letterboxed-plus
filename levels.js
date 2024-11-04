@@ -27,34 +27,42 @@ inputFields.forEach(inputField => {
             const oldLastLetter = currentWord.value[currentWord.value.length - 1];
             updateCurrentWord(true, oldLastLetter);
         } else if (typedLetter === "Backspace") { // back a letter
-            const currentWordLength = currentWord.value.length;
-            if (currentWordNum === 1 && currentWord.value.length === 0) return;
-            if (currentWordNum !== 1 && currentWord.value.length === 1) { // must always have 1 letter if not on first word
-                updateCurrentWord(false, "");
-                return;
+            const canUndoLetter = (currentWordNum === 1 && currentWordLength > 1)
+                || (currentWordNum > 1 && currentWordLength > 2);
+            if (canUndoLetter) {
+                undoLetter();
             }
-            
-            const currentLine = document.getElementById(`line${currentLineNum}`);
-            if (currentLine) currentLine.parentNode.removeChild(currentLine);
-            currentLineNum--;
-            
-            const currentNode = document.evaluate("//button[text() = '" + startLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-            currentNode.classList.remove("last-item");
-            if (!charExistsInPrevHistory(startLetter)) {
-                currentNode.classList.remove("used");
+            if (currentWordLength === 0) {
+                startLetter = "";
             }
-            
-            const newLetter = currentWord.value[currentWord.value.length - 2].toUpperCase();
-            const newNode = document.evaluate("//button[text() = '" + newLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-            if (newNode) newNode.classList.add("last-item");
-            startLetter = newLetter ? newLetter : null;
         } else if (isLegalChar(typedLetter.toUpperCase())) { // legal letter
             addLetter(typedLetter.toUpperCase(), true);
         } else { // illegal letter
-            event.preventDefault(); // prevent typed letter
+            event.preventDefault();
         }
     });
 });
+
+function undoLetter() {
+    const currentLine = document.getElementById(`line${currentLineNum}`);
+    if (currentLine) currentLine.parentNode.removeChild(currentLine);
+    currentLineNum--;
+    
+    const currentNode = document.evaluate("//button[text() = '" + startLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    currentNode.classList.remove("last-item");
+    if (!charExistsInPrevHistory(startLetter)) {
+        currentNode.classList.remove("used");
+    }
+    
+    const newLetter = currentWord.value[currentWord.value.length - 2].toUpperCase();
+    if (!newLetter) {
+        startLetter = null;
+    }
+    
+    const newNode = document.evaluate("//button[text() = '" + newLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    if (newNode) newNode.classList.add("last-item");
+    startLetter = newLetter;
+}
 
 // for clicks on nodes
 const board = document.querySelector(".board");
@@ -101,7 +109,7 @@ function addLetter(endLetter, wasTyped) {
     if (!wasTyped) {
         currentWord.value += endLetter.toLowerCase();
     }
-    
+
     const startNode = document.evaluate("//button[text() = '" + startLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     const endNode = document.evaluate("//button[text() = '" + endLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     
