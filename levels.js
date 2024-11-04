@@ -149,7 +149,7 @@ function checkWin() {
     const nextLevel = +document.body.dataset.level + 1;
     if (nextLevel > currentMaxLevel) localStorage.setItem("current_level", nextLevel);
 
-    const score_location = "level_" + document.body.dataset.level;
+    const score_location = "score_level_" + document.body.dataset.level;
     const currentMaxScore = parseInt(localStorage.getItem(score_location));
     const thisScore = (currentWordNum - 1) / 2;
     if (thisScore > currentMaxScore) localStorage.setItem(score_location, thisScore);
