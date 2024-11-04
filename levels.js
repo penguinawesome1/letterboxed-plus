@@ -31,6 +31,7 @@ inputFields.forEach(inputField => {
             const canUndoLetter = (currentWordNum === 1 && currentWordLength > 0)
                 || (currentWordNum > 1 && currentWordLength > 1);
             if (canUndoLetter) undoLetter();
+            else if (currentWordNum > 1) updateCurrentWord(false, "");
         } else if (isLegalChar(typedLetter.toUpperCase())) { // legal letter
             addLetter(typedLetter.toUpperCase(), true);
         } else { // illegal letter
