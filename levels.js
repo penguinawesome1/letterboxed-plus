@@ -1,5 +1,3 @@
-// const elements = document.querySelectorAll("*:contains('" + targetText + "')");
-
 let startLetter = "", currentLineNum = 0, currentWordNum = 1, currentWord = document.getElementById("word1");
 currentWord.disabled = false;
 currentWord.focus();
@@ -25,9 +23,9 @@ inputFields.forEach(inputField => {
         const typedLetter = event.key;
         if (typedLetter === "Enter" || typedLetter === "Tab") { // forward a letter
             if (!dictionary.includes(currentWord.value.toUpperCase())) return;
+            checkWin();
             const oldLastLetter = currentWord.value[currentWord.value.length - 1];
             updateCurrentWord(true, oldLastLetter);
-            checkWin();
         } else if (typedLetter === "Backspace") { // back a letter
             const currentWordLength = currentWord.value.length;
             if (currentWordNum === 1 && currentWord.value.length === 0) return;
@@ -45,11 +43,11 @@ inputFields.forEach(inputField => {
             if (!charExistsInPrevHistory(startLetter)) {
                 currentNode.classList.remove("used");
             }
-
+            
             const newLetter = currentWord.value[currentWord.value.length - 2].toUpperCase();
             const newNode = document.evaluate("//button[text() = '" + newLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
             if (newNode) newNode.classList.add("last-item");
-            startLetter = newLetter;
+            startLetter = newLetter ? newLetter : null;
         } else if (isLegalChar(typedLetter.toUpperCase())) { // legal letter
             addLetter(typedLetter.toUpperCase(), true);
         } else { // illegal letter
@@ -150,5 +148,11 @@ function checkWin() {
     const currentMaxLevel = parseInt(localStorage.getItem("current_level"));
     const nextLevel = +document.body.dataset.level + 1;
     if (nextLevel > currentMaxLevel) localStorage.setItem("current_level", nextLevel);
+
+    const score_location = "level_" + document.body.dataset.level;
+    const currentMaxScore = parseInt(localStorage.getItem(score_location));
+    const thisScore = (currentWordNum - 1) / 2;
+    if (thisScore > currentMaxScore) localStorage.setItem(score_location, thisScore);
+    
     window.location.href = "../index.html";
 }
