@@ -8,7 +8,7 @@
 
 body {
     background-color: black;
-    z-index: -1;
+    background-size: cover;
 }
 
 .bg-world1 {
@@ -67,7 +67,7 @@ input.off {
     color: transparent;
 }
 
-.board {
+.board-template1 {
     display: grid;
     aspect-ratio: 1 / 1;
     grid-template-rows: repeat(5, 1fr);
@@ -80,12 +80,27 @@ input.off {
     ". g . h .";
 }
 
-.board .box {
+.board-template2 {
+    display: grid;
+    aspect-ratio: 1 / 1;
+    grid-template-rows: repeat(7, 1fr);
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-areas:
+    ". a . b . c ."
+    "d . . . . . e"
+    ". . . . . . ."
+    "f . . M . . g"
+    ". . . . . . ."
+    "h . . . . . i"
+    ". j . k . l .";
+}
+
+.box {
     position: relative;
     grid-area: M;
 }
 
-.board .box::after {
+.box::after {
     content: "";
     position: absolute;
     padding: 16rem;
