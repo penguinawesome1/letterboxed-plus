@@ -42,6 +42,7 @@ body {
     height: 40rem;
     padding: 2rem;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    position: relative;
 }
 
 .history {
@@ -67,32 +68,33 @@ input.off {
     color: transparent;
 }
 
-.board-template1 {
+.board {
     display: grid;
     aspect-ratio: 1 / 1;
+}
+
+.board.template1 {
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas:
     ". a . b ."
-    "c . . . d"
+    "h . . . c"
     ". . M . ."
-    "e . . . f"
-    ". g . h .";
+    "g . . . d"
+    ". f . e .";
 }
 
-.board-template2 {
-    display: grid;
-    aspect-ratio: 1 / 1;
+.board.template2 {
     grid-template-rows: repeat(7, 1fr);
     grid-template-columns: repeat(7, 1fr);
     grid-template-areas:
     ". a . b . c ."
-    "d . . . . . e"
+    "l . . . . . d"
     ". . . . . . ."
-    "f . . M . . g"
+    "k . . M . . e"
     ". . . . . . ."
-    "h . . . . . i"
-    ". j . k . l .";
+    "j . . . . . f"
+    ". i . h . g .";
 }
 
 .box {
@@ -100,10 +102,20 @@ input.off {
     grid-area: M;
 }
 
-.box::after {
+.template1 .box::after {
     content: "";
     position: absolute;
     padding: 16rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: .2rem solid black;
+}
+
+.template2 .box::after {
+    content: "";
+    position: absolute;
+    padding: 17rem;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -170,4 +182,29 @@ button#back {
     border-radius: 1rem;
     border: .2rem solid black;
     box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
+}
+
+button#undo,
+button#forward {
+    padding: 1rem;
+    background-color: black;
+    color: white;
+    border-radius: 1rem;
+    position: absolute;
+    bottom: 1rem;
+    text-align: center;
+    transition: transform .3s;
+}
+
+button#undo {
+    left: 1rem;
+}
+
+button#forward {
+    right: 1rem;
+}
+
+button#undo:active,
+button#forward:active {
+    transform: rotateX(180deg);
 }

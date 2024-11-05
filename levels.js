@@ -4,6 +4,7 @@ currentWord.focus();
 
 async function setUpDictionary() {
     try {
+        // const response = await fetch("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt");
         const response = await fetch("../dictionary.txt");
         const data = await response.text();
         dictionary = data.split('\n');
@@ -27,11 +28,7 @@ inputFields.forEach(inputField => {
             const oldLastLetter = currentWord.value[currentWord.value.length - 1];
             updateCurrentWord(true, oldLastLetter);
         } else if (typedLetter === "Backspace") { // back a letter
-            let currentWordLength = currentWord.value.length;
-            const canUndoLetter = (currentWordNum === 1 && currentWordLength > 0)
-                || (currentWordNum > 1 && currentWordLength > 1);
-            if (canUndoLetter) undoLetter();
-            else if (currentWordNum > 1) updateCurrentWord(false, "");
+            undoLetter(false);
         } else if (isLegalChar(typedLetter.toUpperCase())) { // legal letter
             addLetter(typedLetter.toUpperCase(), true);
         } else { // illegal letter
@@ -40,7 +37,15 @@ inputFields.forEach(inputField => {
     });
 });
 
-function undoLetter() {
+function undoLetter(clicked) {
+    const currentWordLength = currentWord.value.length;
+    const canUndoLetter = (currentWordNum === 1 && currentWordLength > 0)
+        || (currentWordNum > 1 && currentWordLength > 1);
+    if (!canUndoLetter) {
+        if (currentWordNum > 1) updateCurrentWord(false, "");
+        return;
+    }
+
     const currentLine = document.getElementById(`line${currentLineNum}`);
     if (currentLine) currentLine.parentNode.removeChild(currentLine);
     currentLineNum--;
@@ -66,7 +71,22 @@ function undoLetter() {
 // for clicks on nodes
 const board = document.querySelector(".board");
 board.addEventListener("click", (event) => {
-    const clickedLetter = event.target.closest(".node").innerText;
+    const clickedElement = event.target;
+    if (clickedElement.id === "forward") {
+        if (!dictionary.includes(currentWord.value.toUpperCase())) return;
+        checkWin();
+        const oldLastLetter = currentWord.value[currentWord.value.length - 1];
+        updateCurrentWord(true, oldLastLetter);
+        return;
+    }
+    if (clickedElement.id === "undo") {
+        const currentWordTemp = currentWordNum;
+        undoLetter(true);
+        if (currentWordNum === currentWordTemp) currentWord.value = currentWord.value.slice(0, -1);
+        return;
+    }
+
+    const clickedLetter = clickedElement.closest(".node").innerText;
     if (isLegalChar(clickedLetter)) {
         addLetter(clickedLetter, false);
     }

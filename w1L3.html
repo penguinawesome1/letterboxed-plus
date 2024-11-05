@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.png">
+    <title>World 1 - Level 3</title>
+
+    <link href="../levels.css" rel="stylesheet">
+    <script src="../levels.js" defer></script>
+</head>
+<body class="bg-world1" data-level="3">
+    <a href="../index.html">
+        <button id="back">&#11148</button>
+    </a>
+    <div class="wrapper">
+        <div class="card board template1">
+            <div class="box"></div>
+            <button id="a" data-links="cdefgh" class="node" style="--grid-area: a">A</button>
+            <button id="b" data-links="cdefgh" class="node" style="--grid-area: b">U</button>
+            <button id="c" data-links="abefgh" class="node" style="--grid-area: c">H</button>
+            <button id="d" data-links="abefgh" class="node" style="--grid-area: d">B</button>
+            <button id="e" data-links="abcdgh" class="node" style="--grid-area: e">C</button>
+            <button id="f" data-links="abcdgh" class="node" style="--grid-area: f">E</button>
+            <button id="g" data-links="abcdef" class="node" style="--grid-area: g">N</button>
+            <button id="h" data-links="abcdef" class="node" style="--grid-area: h">L</button>
+        </div>
+        <div class="card history">
+            <strong>Try to guess in two words!</strong>
+            <input id="word1" type="text">
+            <input id="word2" class="off" type="text" disabled>
+            <input id="word3" class="off" type="text" disabled>
+            <input id="word4" class="off" type="text" disabled>
+            <input id="word5" class="off" type="text" disabled>
+            <input id="word6" class="off" type="text" disabled>
+        </div>
+    </div>
+</body>
+</html>

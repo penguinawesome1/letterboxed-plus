@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.png">
+    <title>World 1 - Level 9</title>
+
+    <link href="../levels.css" rel="stylesheet">
+    <script src="../levels.js" defer></script>
+</head>
+<body class="bg-world1" data-level="9">
+    <a href="../index.html">
+        <button id="back">&#11148</button>
+    </a>
+    <div class="wrapper">
+        <div class="card board template2">
+            <div class="box"></div>
+            <button id="a" data-links="defghijkl" class="node" style="--grid-area: a">L</button>
+            <button id="b" data-links="defghijkl" class="node" style="--grid-area: b">Y</button>
+            <button id="c" data-links="defghijkl" class="node" style="--grid-area: c">R</button>
+            <button id="d" data-links="abcghijkl" class="node" style="--grid-area: d">C</button>
+            <button id="e" data-links="abcghijkl" class="node" style="--grid-area: e">O</button>
+            <button id="f" data-links="abcghijkl" class="node" style="--grid-area: f">H</button>
+            <button id="g" data-links="abcdefjkl" class="node" style="--grid-area: g">E</button>
+            <button id="h" data-links="abcdefjkl" class="node" style="--grid-area: h">P</button>
+            <button id="i" data-links="abcdefjkl" class="node" style="--grid-area: i">I</button>
+            <button id="j" data-links="abcdefghi" class="node" style="--grid-area: j">T</button>
+            <button id="k" data-links="abcdefghi" class="node" style="--grid-area: k">D</button>
+            <button id="l" data-links="abcdefghi" class="node" style="--grid-area: l">A</button>
+        </div>
+        <div class="card history">
+            <strong>Try to guess in two words!</strong>
+            <input id="word1" type="text">
+            <input id="word2" class="off" type="text" disabled>
+            <input id="word3" class="off" type="text" disabled>
+            <input id="word4" class="off" type="text" disabled>
+            <input id="word5" class="off" type="text" disabled>
+            <input id="word6" class="off" type="text" disabled>
+        </div>
+    </div>
+</body>
+</html>
