@@ -4,8 +4,8 @@ currentWord.focus();
 
 async function setUpDictionary() {
     try {
-        // const response = await fetch("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt");
-        const response = await fetch("../dictionary.txt");
+        const response = await fetch("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt");
+        // const response = await fetch("../dictionary.txt");
         const data = await response.text();
         dictionary = data.split('\n');
         return dictionary;
@@ -24,7 +24,7 @@ inputFields.forEach(inputField => {
         const typedLetter = event.key;
         if (typedLetter === "Enter" || typedLetter === "Tab") { // forward a letter
             if (!dictionary.includes(currentWord.value.toUpperCase())) return;
-            checkWin();
+            if (checkWin()) return;
             const oldLastLetter = currentWord.value[currentWord.value.length - 1];
             updateCurrentWord(true, oldLastLetter);
         } else if (typedLetter === "Backspace") { // back a letter
@@ -74,7 +74,7 @@ board.addEventListener("click", (event) => {
     const clickedElement = event.target;
     if (clickedElement.id === "forward") {
         if (!dictionary.includes(currentWord.value.toUpperCase())) return;
-        checkWin();
+        if (checkWin()) return;
         const oldLastLetter = currentWord.value[currentWord.value.length - 1];
         updateCurrentWord(true, oldLastLetter);
         return;
@@ -167,19 +167,42 @@ function drawLine(startNode, endNode) {
     document.body.appendChild(newLine);
 }
 
+// IF CLICK OUTSIDE BLUR, CLOSE BLUR, make sure to hide stars too
+
 function checkWin() {    
     const allUsedNodes = document.querySelectorAll(".used");
     const allNodes = document.querySelectorAll(".node");
-    if (allUsedNodes.length !== allNodes.length) return;
+    if (allUsedNodes.length !== allNodes.length) return false;
+
+    const winScreen = document.getElementById("win-wrapper");
+    winScreen.classList.remove("hidden");
+    const score = parseInt(4 - (currentWordNum / 2));
+    if (score > 1) {
+        const star2 = document.getElementById("star2");
+        star2.classList.remove("gray");
+    } if (score === 3) {
+        const star3 = document.getElementById("star3");
+        star3.classList.remove("gray");
+    }
+
+    const score_location = "score_level_" + document.body.dataset.level;
+    const currentMaxScore = parseInt(localStorage.getItem(score_location));
+    if (score > currentMaxScore) localStorage.setItem(score_location, thisScore);
     
     const currentMaxLevel = parseInt(localStorage.getItem("current_level"));
     const nextLevel = +document.body.dataset.level + 1;
     if (nextLevel > currentMaxLevel) localStorage.setItem("current_level", nextLevel);
 
-    const score_location = "score_level_" + document.body.dataset.level;
-    const currentMaxScore = parseInt(localStorage.getItem(score_location));
-    const thisScore = parseInt(currentWordNum / 2);
-    if (thisScore > currentMaxScore) localStorage.setItem(score_location, thisScore);
-    
-    window.location.href = "../index.html";
+    return true;
 }
+
+const winWrapper = document.getElementById("win-wrapper");
+winWrapper.addEventListener("click", (event) => {
+    if (winWrapper.classList.contains("hidden") || event.target.id === "win-box") return;
+
+    const star2 = document.getElementById("star2");
+    const star3 = document.getElementById("star3");
+    star2.classList.add("gray");
+    star3.classList.add("gray");
+    winWrapper.classList.add("hidden");
+});

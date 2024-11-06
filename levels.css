@@ -59,6 +59,7 @@ body {
     width: 100%;
     box-shadow: inset 2px 5px 10px rgba(0,0,0,0.2);
     border-radius: .5rem;
+    min-width: 10rem;
 }
 
 input.off {
@@ -168,7 +169,7 @@ button.node.last-item {
     color: black;
 }
 
-button#back {
+button#back-lose {
     z-index: 2;
     position: absolute;
     left: 1rem;
@@ -207,4 +208,65 @@ button#forward {
 button#undo:active,
 button#forward:active {
     transform: rotateX(180deg);
+}
+
+#win-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#win-wrapper.hidden {
+    display: none;
+}
+
+.win-box {
+    background-color: white;
+    width: 25rem;
+    height: 25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.star-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.star {
+    width: 5rem;
+    aspect-ratio: 1;
+    background: #F8CA00;
+    clip-path: polygon(50% 0,79% 90%,2% 35%,98% 35%,21% 90%);
+}
+
+.star.gray {
+    background-color: gray;
+}
+
+#back-win {
+    font-size: 2rem;
+    padding: 2rem;
+    width: 15rem;
+    text-align: center;
+    background-color: burlywood;
+    border-bottom: 1rem solid darkgoldenrod;
+    border-radius: .5rem;
+    transition: .2s ease-in-out;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
