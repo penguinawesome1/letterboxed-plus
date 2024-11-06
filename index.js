@@ -24,10 +24,8 @@ for (let i = 1; i <= currentLevel; i++) {
     if (!score) continue;
 
     for (let a = 0; a < score; a++) {
-        console.log("HI");
         const star = document.createElement("div");
         star.classList.add("star");
         worldButton.querySelector(".star-wrapper").appendChild(star);
-        console.log(worldButton.querySelector(".star-wrapper").innerHTML);
     }
 }
