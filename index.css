@@ -117,12 +117,12 @@ a {
     color: inherit;
 }
 
-.level .star-container {
+.level .star-wrapper {
     display: flex;
     justify-content: space-between;
 }
 
-.level .star-container .star {
+.level .star-wrapper .star {
     width: 2rem;
     aspect-ratio: 1;
     background: #F8CA00;
