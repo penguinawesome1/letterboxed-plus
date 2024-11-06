@@ -167,8 +167,6 @@ function drawLine(startNode, endNode) {
     document.body.appendChild(newLine);
 }
 
-// IF CLICK OUTSIDE BLUR, CLOSE BLUR, make sure to hide stars too
-
 function checkWin() {    
     const allUsedNodes = document.querySelectorAll(".used");
     const allNodes = document.querySelectorAll(".node");
@@ -185,9 +183,9 @@ function checkWin() {
         star3.classList.remove("gray");
     }
 
-    const score_location = "score_level_" + document.body.dataset.level;
-    const currentMaxScore = parseInt(localStorage.getItem(score_location));
-    if (score > currentMaxScore) localStorage.setItem(score_location, thisScore);
+    const scoreLocation = "score_level_" + document.body.dataset.level;
+    const currentMaxScore = parseInt(localStorage.getItem(scoreLocation));
+    if (!currentMaxScore || score > currentMaxScore) localStorage.setItem(scoreLocation, score);
     
     const currentMaxLevel = parseInt(localStorage.getItem("current_level"));
     const nextLevel = +document.body.dataset.level + 1;

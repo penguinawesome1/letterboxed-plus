@@ -169,7 +169,7 @@ button.node.last-item {
     color: black;
 }
 
-button#back-lose {
+button#back {
     z-index: 2;
     position: absolute;
     left: 1rem;
