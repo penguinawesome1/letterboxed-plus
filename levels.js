@@ -4,8 +4,8 @@ currentWord.focus();
 
 async function setUpDictionary() {
     try {
-        // const response = await fetch("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt");
-        const response = await fetch("../dictionary.txt");
+        const response = await fetch("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt");
+        // const response = await fetch("../dictionary.txt");
         const data = await response.text();
         dictionary = data.split('\n');
         return dictionary;
@@ -70,7 +70,7 @@ function undoLetter(clicked) {
 
 // for clicks on nodes
 const board = document.querySelector(".board");
-board.addEventListener("click", (event) => {
+board.addEventListener("mousedown", (event) => {
     const clickedElement = event.target;
     if (clickedElement.id === "forward") {
         if (!dictionary.includes(currentWord.value.toUpperCase())) return;
@@ -126,7 +126,7 @@ function updateCurrentWord(forward, letter) {
 function addLetter(endLetter, wasTyped) {
     // add word to input boxes if not already
     if (!wasTyped) {
-        currentWord.value += endLetter.toLowerCase();
+        currentWord.value += endLetter.toUpperCase();
     }
 
     const startNode = document.evaluate("//button[text() = '" + startLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
@@ -196,11 +196,15 @@ function checkWin() {
 
 const winWrapper = document.getElementById("win-wrapper");
 winWrapper.addEventListener("click", (event) => {
-    if (winWrapper.classList.contains("hidden") || event.target.id === "win-box") return;
+    if (winWrapper.classList.contains("hidden") || event.target.classList.contains("star-wrapper") || event.target.classList.contains("win-box")) return;
 
     const star2 = document.getElementById("star2");
     const star3 = document.getElementById("star3");
     star2.classList.add("gray");
     star3.classList.add("gray");
     winWrapper.classList.add("hidden");
+});
+
+winWrapper.addEventListener('keydown', (event) => {
+    if (event.key === "Enter") window.location.href = "../index.html";
 });

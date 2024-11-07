@@ -4,14 +4,14 @@ const prevBtn = document.getElementById("prev");
 
 nextBtn.addEventListener('click', () => {
     slider.append(slider.querySelector("section:first-child"));
-    document.body.classList.remove(...document.body.classList);
-    document.body.classList.add(`bg-${slider.children[0].id}`);
+    document.body.className = "";
+    document.body.classList.add(`bg-world${slider.children[0].id.slice(-1)}`);
 });
 
 prevBtn.addEventListener('click', () => {
     slider.prepend(slider.querySelector("section:last-child"));
-    document.body.classList.remove(...document.body.classList);
-    document.body.classList.add(`bg-${slider.firstChild.id}`);
+    document.body.className = "";
+    document.body.classList.add(`bg-world${slider.children[0].id.slice(-1)}`);
 });
 
 // localStorage.setItem("current_level", 9);

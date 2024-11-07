@@ -11,19 +11,19 @@ body {
     background-size: cover;
 }
 
-.bg-world1 {
+body.bg-world1 {
     background-image: url("images/background1.png");
 }
 
-.bg-world2 {
+body.bg-world2 {
     background-image: url("images/background2.png");
 }
 
-.bg-world3 {
+body.bg-world3 {
     background-image: url("images/background3.png");
 }
 
-.bg-world4{
+body.bg-world4{
     background-image: url("images/background4.png");
 }
 
