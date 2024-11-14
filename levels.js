@@ -102,7 +102,7 @@ function charExistsInPrevHistory(char) {
 }
 
 function isLegalChar(endLetter) {
-    const startNode = document.querySelector("last-item");
+    const startNode = document.querySelector(".last-item");
     const endNode = document.evaluate("//button[text() = '" + endLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     if (!endNode) return false;
     if (startNode) return startNode.dataset.links.includes(endNode.id);
@@ -128,7 +128,7 @@ function addLetter(endLetter, wasTyped) {
         currentWord.value += endLetter.toUpperCase();
     }
 
-    const startNode = document.querySelector("last-item");
+    const startNode = document.querySelector(".last-item");
     const endNode = document.evaluate("//button[text() = '" + endLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     
     if (startNode) {
