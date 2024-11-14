@@ -105,7 +105,7 @@ function isLegalChar(endLetter) {
     const startNode = document.querySelector("last-item");
     const endNode = document.evaluate("//button[text() = '" + endLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     if (!endNode) return false;
-    return currentWord.value.length === 0 || startNode && startNode.dataset.links.includes(endNode.id);
+    return currentWord.value.length === 0 || (startNode && startNode.dataset.links.includes(endNode.id));
 }
 
 function updateCurrentWord(forward, letter) {
