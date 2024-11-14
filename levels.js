@@ -4,8 +4,8 @@ currentWord.focus();
 
 async function setUpDictionary() {
     try {
-        const response = await fetch("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt");
-        // const response = await fetch("../dictionary.txt");
+        // const response = await fetch("https://raw.githubusercontent.com/penguinawesome1/letterboxed-plus/refs/heads/main/dictionary.txt");
+        const response = await fetch("../dictionary.txt");
         const data = await response.text();
         dictionary = data.split('\n');
         return dictionary;
@@ -102,12 +102,10 @@ function charExistsInPrevHistory(char) {
 }
 
 function isLegalChar(endLetter) {
-    const startNode = document.evaluate("//button[text() = '" + startLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    const startNode = document.querySelector("last-item");
     const endNode = document.evaluate("//button[text() = '" + endLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     if (!endNode) return false;
-    return (currentWordNum === 1 && currentWord.value.length === 0)
-        || (currentWordNum !== 1 && currentWord.value.length === 1)
-        || (startNode && startNode.dataset.links.includes(endNode.id));
+    return currentWord.value.length === 0 || startNode && startNode.dataset.links.includes(endNode.id);
 }
 
 function updateCurrentWord(forward, letter) {
@@ -129,7 +127,7 @@ function addLetter(endLetter, wasTyped) {
         currentWord.value += endLetter.toUpperCase();
     }
 
-    const startNode = document.evaluate("//button[text() = '" + startLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    const startNode = document.querySelector("last-item");
     const endNode = document.evaluate("//button[text() = '" + endLetter + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     
     if (startNode) {
